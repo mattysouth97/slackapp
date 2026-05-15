@@ -1,0 +1,38 @@
+# fly.toml app configuration file generated for slackapp-cnwqpq on 2026-05-15T10:19:36Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'slackapp-cnwqpq'
+primary_region = 'nrt'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[deploy]
+  strategy = 'immediate'
+
+[env]
+  KIMBISEO_ENABLE_CC_DELEGATE = '0'
+  KIMBISEO_JOBS_DB_PATH = '/data/kimbiseo_jobs.db'
+  KIMBISEO_THREAD_STATE_DB_PATH = '/data/kimbiseo_thread_state.db'
+  TZ = 'Asia/Seoul'
+
+[[mounts]]
+  source = 'kimbiseo_data'
+  destination = '/data'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 1024
